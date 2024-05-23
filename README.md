@@ -79,21 +79,4 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 - Método: DELETE
 - Descripción: Elimina el cliente con el ID especificado.
 
-## Estructura del Proyecto
 
-/tu-repo-backend
-│
-├── src
-│   ├── app.ts
-│   ├── cliente.ts
-│
-├── dist
-│   └── (archivos compilados)
-│
-├── node_modules
-│
-├── .gitignore
-├── package.json
-├── pnpm-lock.yaml
-├── tsconfig.json
-└── README.md
