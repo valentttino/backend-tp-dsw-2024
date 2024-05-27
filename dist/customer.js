@@ -1,9 +1,9 @@
 export class Customer {
-    constructor(id, dni, name, adress, email, phone) {
+    constructor(id, dni, name, address, email, phone) {
         this.id = id;
         this.dni = dni;
         this.name = name;
-        this.adress = adress;
+        this.address = address;
         this.email = email;
         this.phone = phone;
     }

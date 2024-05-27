@@ -34,19 +34,19 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ### Obtener todos los clientes
 
-- URL: /api/clientes
+- URL: /api/customers
 - Método: GET
 - Descripción: Retorna una lista de todos los clientes.
 
 ### Obtener un cliente por ID
 
-- URL: /api/clientes/:id
+- URL: /api/customers/:id
 - Método: GET
 - Descripción: Retorna los datos del cliente con el ID especificado.
 
 ### Crear un nuevo cliente
 
-- URL: /api/clientes
+- URL: /api/customers
 - Método: POST
 - Descripción: Crea un nuevo cliente con la información proporcionada en el cuerpo de la solicitud.
 - Cuerpo de la Solicitud:
@@ -62,7 +62,7 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ### Actualizar un cliente
 
-- URL: /api/clientes/:id
+- URL: /api/customers/:id
 - Método: PUT
 - Descripción: Actualiza los campos especificados del cliente con el ID especificado.
 - Cuerpo de ejemplo de una Solicitud:
@@ -75,7 +75,7 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ### Eliminar un cliente
 
-- URL: /api/clientes/:id
+- URL: /api/customers/:id
 - Método: DELETE
 - Descripción: Elimina el cliente con el ID especificado.
 

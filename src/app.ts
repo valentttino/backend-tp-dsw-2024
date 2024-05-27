@@ -36,7 +36,7 @@ app.post('/api/customers',(req,res) => {
         body.id,        //por ahora, la id es ingresada por el usuario
         body.dni,
         body.name,
-        body.adress,
+        body.address,
         body.email,
         body.phone,
     )
@@ -67,7 +67,7 @@ app.put('/api/customers/:id',(req,res) => {
         idSearch,
         body.dni !== undefined ? body.dni : customerExist.dni,
         body.name !== undefined ? body.name : customerExist.name,
-        body.adress !== undefined ? body.adress : customerExist.adress,
+        body.address !== undefined ? body.address : customerExist.address,
         body.email !== undefined ? body.email : customerExist.email,
         body.phone !== undefined ? body.phone : customerExist.phone,
     )

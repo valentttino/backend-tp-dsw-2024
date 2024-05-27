@@ -3,7 +3,7 @@ export class Customer {
         public id: string,
         public dni: string,
         public name: string,
-        public adress: string,
+        public address: string,
         public email: string,
         public phone: string
     ){}
