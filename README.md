@@ -54,10 +54,10 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
    {
 	"id": "Id del Cliente",
     "dni": "DNI del Cliente",
-    "nomApe": "Nombre y apellido del Cliente",
-    "direccion": "Dirección del Cliente",
+    "name": "Nombre y apellido del Cliente",
+    "address": "Dirección del Cliente",
     "email": "email@ejemplo.com",
-    "telefono": "1234567890"
+    "phone": "1234567890"
   }
 
 ### Actualizar un cliente
@@ -68,9 +68,9 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 - Cuerpo de ejemplo de una Solicitud:
   ```
   {
-    "nombre": "Nombre Actualizado",
+    "name": "Nombre Actualizado",
     "email": "nuevoemail@ejemplo.com",
-    "telefono": "0987654321"
+    "phone": "0987654321"
   } 
 
 ### Eliminar un cliente
