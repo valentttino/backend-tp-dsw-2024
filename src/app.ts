@@ -1,5 +1,5 @@
 import express from 'express'
-import { Customer } from './customer.js'
+import { Customer } from './customer/customer.entity.js'
 
 const app = express()
 app.use(express.json())
