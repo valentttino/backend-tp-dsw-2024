@@ -1,0 +1,33 @@
+### obtener todos los customers
+GET http://localhost:3006/api/customers
+
+
+### obtener un customer
+GET http://localhost:3006/api/customers/c123
+
+### crear un nuevo customer
+POST http://localhost:3006/api/customers
+Content-Type: application/json
+
+{
+    "id":"c126",
+    "dni":"23563692",
+    "name":"John Doe",
+    "address":"Falsa 1800",
+    "email":"jdoe@gmail.com",
+    "phone":"36699867"
+}
+
+### modificar un customer 
+PUT http://localhost:3006/api/customers/c126
+Content-Type: application/json
+
+{
+    "dni":"47",
+    "address":"Real 1974",
+    "email":"doe74john@gmail.com",
+    "phone": "01126262626"
+}
+
+### borrar un customer
+DELETE http://localhost:3006/api/customers/c126

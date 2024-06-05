@@ -1,28 +1,19 @@
 import express from 'express'
 import { Customer } from './customer/customer.entity.js'
+import { CustomerRepository } from './customer/customer.repository.js'
 
 const app = express()
 app.use(express.json())
 
-//Creamos cliente de prueba
-let customers = [
-    new Customer(
-        'c123',
-        '38555222',
-        'Nicolas Zapata',
-        'San Luis 1489',
-        'nzapata@gmail.com',
-        '3425556666'
-    )
-]
+const repository = new CustomerRepository()
 
 app.get('/api/customers', (req,res) => {
-    res.json(customers)
+    res.json(repository.findAll())
 })
 
 app.get('/api/customers/:id', (req,res) =>{
     const idSearch = req.params.id
-    const customer = customers.find(c => c.id === idSearch)
+    const customer = repository.findOne({id: idSearch})
     if (!customer) {
         return res.status(404).send({message:'Customer not found'})
     }
@@ -41,39 +32,32 @@ app.post('/api/customers',(req,res) => {
         body.phone,
     )
 
-    customers.push(customerNew)
-    return res.status(201).send(customerNew)
+    const customer = repository.add(customerNew)
+    return res.status(201).send(customer)
 })
 
 app.delete('/api/customers/:id', (req,res) => {
-    const idToDelete = req.params.id
-    customers = customers.filter(c => c.id !== idToDelete)
+    const id = req.params.id
+    const customer = repository.delete({id})
 
-    res.status(204).end()
+    if (!customer){
+        res.status(404).send({message: 'Customer not found'})
+    } else{
+        res.status(200).send({message: 'Customer deleted successfully'})
+    }
 })
 
 app.put('/api/customers/:id',(req,res) => {
-    const body = req.body
-    const idSearch = req.params.id
+    let body = req.body
+    body.id = req.params.id
     
-    const customerIndex = customers.findIndex(c => c.id === idSearch)
-    if (customerIndex === -1) {
+    const customer = repository.update(body)
+
+    if (!customer) {
         return res.status(404).send({message:'Customer not found'})
     }
 
-    const customerExist = customers[customerIndex]
-    
-    const customerUpdated = new Customer(
-        idSearch,
-        body.dni !== undefined ? body.dni : customerExist.dni,
-        body.name !== undefined ? body.name : customerExist.name,
-        body.address !== undefined ? body.address : customerExist.address,
-        body.email !== undefined ? body.email : customerExist.email,
-        body.phone !== undefined ? body.phone : customerExist.phone,
-    )
-
-    customers[customerIndex] = customerUpdated
-    res.status(200).send(customerUpdated)
+    res.status(200).send(customer)
 })
 
 app.listen(3006, ()=>{
