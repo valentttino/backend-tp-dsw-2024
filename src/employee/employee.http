@@ -1,0 +1,33 @@
+### obtener todos los employees
+GET http://localhost:3006/api/employees
+
+### obtener un employee
+GET http://localhost:3006/api/employees/a23
+
+### crear un nuevo employee
+POST http://localhost:3006/api/employees
+Content-Type: application/json
+
+{
+    "id":"a24",
+    "cuil":"20334567897",
+    "dni":"33456789",
+    "name":"Juan Sito",
+    "address":"Cordoba 2078",
+    "email":"juansito@gmail.com",
+    "phone":"3382234589"
+}
+
+### modificar un employee 
+PUT http://localhost:3006/api/employees/a24
+Content-Type: application/json
+
+{
+    "cuil":"03",
+    "address":"Mendoza 1968",
+    "email":"juan1905sito@gmail.com",
+    "phone": "3462908978"
+}
+
+### borrar un employee
+DELETE http://localhost:3006/api/employees/a23
