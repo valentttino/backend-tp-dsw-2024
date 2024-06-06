@@ -1,3 +1,4 @@
+import { Order } from "../order/order.entity.js";
 import { Repository } from "../shared/repository.js";
 import { Customer } from "./customer.entity.js";
 
@@ -8,7 +9,25 @@ let customers = [
         'Nicolas Zapata',
         'San Luis 1489',
         'nzapata@gmail.com',
-        '3425556666'
+        '3425556666',
+        [
+            new Order(
+                '1974',
+                'e123',
+                'c123',
+                '74',
+                1800.0,
+                new Date('2024-06-02')
+            ),
+            new Order(
+                '1988',
+                'e123',
+                'c123',
+                '22',
+                1200.0,
+                new Date('2024-06-11')
+            )
+        ]
     )
 ]
 

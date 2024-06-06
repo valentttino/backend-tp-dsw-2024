@@ -15,7 +15,17 @@ Content-Type: application/json
     "name":"John Doe",
     "address":"Falsa 1800",
     "email":"jdoe@gmail.com",
-    "phone":"36699867"
+    "phone":"36699867",
+    "orders": [
+        {
+            "orderNumber":"77",
+            "idEmployee":"e126",
+            "idCustomer":"c126",
+            "idMaterial":"22",
+            "totalCost":70.2,
+            "orderDate": "2022-05-03"
+        }
+    ]
 }
 
 ### modificar un customer 

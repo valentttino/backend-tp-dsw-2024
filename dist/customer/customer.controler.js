@@ -15,7 +15,7 @@ function findOne(req, res) {
 function add(req, res) {
     const body = req.body;
     const customerNew = new Customer(body.id, //por ahora, la id es ingresada por el usuario
-    body.dni, body.name, body.address, body.email, body.phone);
+    body.dni, body.name, body.address, body.email, body.phone, body.orders);
     const customer = repository.add(customerNew);
     return res.status(201).send(customer);
 }

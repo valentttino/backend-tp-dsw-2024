@@ -1,3 +1,5 @@
+import { Order } from "../order/order.entity.js"
+
 export class Customer {
     constructor(
         public id: string,
@@ -5,6 +7,7 @@ export class Customer {
         public name: string,
         public address: string,
         public email: string,
-        public phone: string
+        public phone: string,
+        public orders: Order[] = []
     ){}
 }
