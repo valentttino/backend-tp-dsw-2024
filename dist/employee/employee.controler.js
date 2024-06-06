@@ -15,7 +15,7 @@ function findOne(req, res) {
 function add(req, res) {
     const body = req.body;
     const employeeNew = new Employee(body.id, //por ahora, la id es ingresada por el usuario
-    body.dni, body.cuil, body.name, body.address, body.email, body.phone);
+    body.dni, body.cuil, body.name, body.address, body.email, body.phone, body.orders);
     const employee = repository.add(employeeNew);
     return res.status(201).send(employee);
 }

@@ -2,24 +2,34 @@
 GET http://localhost:3006/api/employees
 
 ### obtener un employee
-GET http://localhost:3006/api/employees/a23
+GET http://localhost:3006/api/employees/e123
 
 ### crear un nuevo employee
 POST http://localhost:3006/api/employees
 Content-Type: application/json
 
 {
-    "id":"a24",
+    "id":"e126",
     "cuil":"20334567897",
     "dni":"33456789",
     "name":"Juan Sito",
     "address":"Cordoba 2078",
     "email":"juansito@gmail.com",
-    "phone":"3382234589"
+    "phone":"3382234589",
+    "orders":[
+        {
+            "orderNumber":"77",
+            "idEmployee":"e126",
+            "idCustomer":"c126",
+            "idMaterial":"22",
+            "totalCost":70.2,
+            "orderDate": "2022-05-03"
+        }
+    ]
 }
 
 ### modificar un employee 
-PUT http://localhost:3006/api/employees/a24
+PUT http://localhost:3006/api/employees/e126
 Content-Type: application/json
 
 {
@@ -30,4 +40,4 @@ Content-Type: application/json
 }
 
 ### borrar un employee
-DELETE http://localhost:3006/api/employees/a23
+DELETE http://localhost:3006/api/employees/e126

@@ -1,15 +1,34 @@
-import { Repository } from "../shared/repository.js";
-import { Employee } from "./employee.entity.js";
+import { Repository } from "../shared/repository.js"
+import { Employee } from "./employee.entity.js"
+import { Order } from "../order/order.entity.js"
 
 let employees = [
     new Employee(
-        'a23',
+        'e123',
         '20680001117',
         '68000111',
         'Luka Doncic',
         'Rioja 1905',
         'ldoncic@gmail.com',
-        '3462343536'
+        '3462343536',
+        [
+            new Order(
+                '1974',
+                'e123',
+                'c123',
+                '74',
+                1800.0,
+                new Date('2024-06-02')
+            ),
+            new Order(
+                '1988',
+                'e123',
+                'c123',
+                '22',
+                1200.0,
+                new Date('2024-06-11')
+            )
+        ]
     )
 ]
 

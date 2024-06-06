@@ -1,6 +1,6 @@
-import { Order } from "../order/order.entity.js";
-import { Repository } from "../shared/repository.js";
-import { Customer } from "./customer.entity.js";
+import { Order } from "../order/order.entity.js"
+import { Repository } from "../shared/repository.js"
+import { Customer } from "./customer.entity.js"
 
 let customers = [
     new Customer(

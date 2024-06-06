@@ -29,6 +29,7 @@ function add(req: Request, res: Response){
         body.address,
         body.email,
         body.phone,
+        body.orders
     )
 
     const employee = repository.add(employeeNew)
