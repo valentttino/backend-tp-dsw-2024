@@ -1,0 +1,29 @@
+### get all orders
+GET http://localhost:3006/api/orders
+
+### get one order
+GET http://localhost:3006/api/orders/1974
+
+### create an order
+POST http://localhost:3006/api/orders
+Content-Type: application/json
+
+{
+    "orderNumber":"77",
+    "idEmployee":"e126",
+    "idCustomer":"c126",
+    "idMaterial":"22",
+    "totalCost":70.2,
+    "orderDate": "2022-05-03"
+}
+
+###  modify an order
+PUT http://localhost:3006/api/orders/77
+Content-Type: application/json
+
+{
+    "totalCost":99.65
+}
+
+### delete an order
+DELETE http://localhost:3006/api/orders/77
