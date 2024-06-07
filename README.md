@@ -32,51 +32,40 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ## Endpoints
 
-### Obtener todos los clientes
 
-- URL: /api/customers
-- Método: GET
-- Descripción: Retorna una lista de todos los clientes.
+### Customers
+**GET ALL CUSTOMERS:** /api/customers
+**GET ONE CUSTOMER:** /api/customers/:id
+**POST:** /api/customers
+**PUT:** /api/customers/:id
+**DELETE:** /api/customers/:id
 
-### Obtener un cliente por ID
+### Employees
+**GET ALL EMPLOYEES:** /api/employees
+**GET ONE EMPLOYEE:** /api/employees/:id
+**POST:** /api/employees
+**PUT:** /api/employees/:id
+**DELETE:** /api/employees/:id
 
-- URL: /api/customers/:id
-- Método: GET
-- Descripción: Retorna los datos del cliente con el ID especificado.
+### Orders
+**GET ALL ORDERS:** /api/orders
+**GET ONE ORDER:** /api/orders/:orderNumber
+**POST:** /api/orders
+**PUT:** /api/orders/:orderNumber
+**DELETE:** /api/orders/:orderNumber
 
-### Crear un nuevo cliente
+### Materials
+**GET ALL MATERIALS:** /api/materials
+**GET ONE MATERIAL:** /api/materials/:id
+**POST:** /api/materials
+**PUT:** /api/materials/:id
+**DELETE:** /api/materials/:id
 
-- URL: /api/customers
-- Método: POST
-- Descripción: Crea un nuevo cliente con la información proporcionada en el cuerpo de la solicitud.
-- Cuerpo de la Solicitud:
-   ``` 
-   {
-	"id": "Id del Cliente",
-    "dni": "DNI del Cliente",
-    "name": "Nombre y apellido del Cliente",
-    "address": "Dirección del Cliente",
-    "email": "email@ejemplo.com",
-    "phone": "1234567890"
-  }
-
-### Actualizar un cliente
-
-- URL: /api/customers/:id
-- Método: PUT
-- Descripción: Actualiza los campos especificados del cliente con el ID especificado.
-- Cuerpo de ejemplo de una Solicitud:
-  ```
-  {
-    "name": "Nombre Actualizado",
-    "email": "nuevoemail@ejemplo.com",
-    "phone": "0987654321"
-  } 
-
-### Eliminar un cliente
-
-- URL: /api/customers/:id
-- Método: DELETE
-- Descripción: Elimina el cliente con el ID especificado.
+### Payments
+**GET ALL PAYMENTS:** /api/payments
+**GET ONE PAYMENT:** /api/payments/:id
+**POST:** /api/payments
+**PUT:** /api/payments/:id
+**DELETE:** /api/payments/:id
 
 
