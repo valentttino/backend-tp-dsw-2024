@@ -1,0 +1,28 @@
+### obtener todos los payments
+GET http://localhost:3006/api/payments
+
+### obtener un payments
+GET http://localhost:3006/api/payments/p2805
+
+### crear un nuevo payments
+POST http://localhost:3006/api/payments
+Content-Type: application/json
+
+{
+    "paymentNumber":"p2805",
+    "orderNumber":"o100",
+    "amount":150,
+    "orderDate":"2022-05-03"
+}
+
+### modificar un payments 
+PUT http://localhost:3006/api/payments/p2805
+Content-Type: application/json
+
+{
+    "paymentNumber":"p1500",
+    "amount":170
+}
+
+### borrar un payments
+DELETE http://localhost:3006/api/payments/p2805
