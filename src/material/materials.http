@@ -1,0 +1,28 @@
+### obtener todos los materials
+GET http://localhost:3006/api/materials
+
+### obtener un material
+GET http://localhost:3006/api/materials/m285
+
+### crear un nuevo material
+POST http://localhost:3006/api/materials
+Content-Type: application/json
+
+{
+    "id":"m285",
+    "name":"cemento",
+    "description":"secado rapido",
+    "stock":1500
+}
+
+### modificar un material 
+PUT http://localhost:3006/api/materials/m285
+Content-Type: application/json
+
+{
+    "name":"arena",
+    "stock":18
+}
+
+### borrar un material
+DELETE http://localhost:3006/api/materials/m285

@@ -15,7 +15,7 @@ function findOne(req, res) {
 function add(req, res) {
     const body = req.body;
     const materialNew = new Material(body.id, //por ahora, la id es ingresada por el empleado
-    body.name, body.description, body.stock, body.costDate);
+    body.name, body.description, body.stock);
     const material = repository.add(materialNew);
     return res.status(201).send(material);
 }
@@ -24,9 +24,9 @@ function update(req, res) {
     body.id = req.params.id;
     const material = repository.update(body);
     if (!material) {
-        return res.status(404).send({ message: 'material not found' });
+        return res.status(404).send({ message: 'Material not found' });
     }
-    res.status(200).send(materials);
+    res.status(200).send(material);
 }
 function remove(req, res) {
     const id = req.params.id;
@@ -39,3 +39,4 @@ function remove(req, res) {
     }
 }
 export { findAll, findOne, add, update, remove };
+//# sourceMappingURL=material.controler.js.map
