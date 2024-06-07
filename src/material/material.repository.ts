@@ -7,6 +7,7 @@ let materials = [
         'cemento',
         'secado rapido',
         1500,
+        200
     )
 ]
 

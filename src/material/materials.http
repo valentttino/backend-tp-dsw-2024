@@ -12,7 +12,8 @@ Content-Type: application/json
     "id":"m285",
     "name":"cemento",
     "description":"secado rapido",
-    "stock":1500
+    "stock":1500,
+    "cost": 200
 }
 
 ### modificar un material 

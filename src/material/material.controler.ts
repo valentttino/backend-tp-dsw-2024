@@ -25,7 +25,8 @@ function add(req: Request, res: Response){
         body.id,        //por ahora, la id es ingresada por el empleado
         body.name,
         body.description,
-        body.stock
+        body.stock,
+        body.cost
     )
 
     const material = repository.add(materialNew)
