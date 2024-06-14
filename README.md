@@ -72,4 +72,3 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 **PUT:** /api/payments/:id
 **DELETE:** /api/payments/:id
 
-delete this
