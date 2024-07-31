@@ -1,44 +1,32 @@
 import { Repository } from "../shared/repository.js"
-import { Material } from "./material.entity.js"
+import { Material, IMaterial } from "./material.entity.js"
 
-let materials = [
-    new Material(
-        'm285',
-        'cemento',
-        'secado rapido',
-        1500,
-        200
-    )
-]
+export class MaterialRepository implements Repository<IMaterial>{
 
-export class MaterialRepository implements Repository<Material>{
-
-    public findAll(): Material[] | undefined {
-        return materials    
+    public async findAll(): Promise<IMaterial[] | undefined> {
+        const materials = await Material
+        return await materials.find().exec()    
     }
 
-    public findOne(item: { id: string }): Material | undefined {
-        return materials.find(o => o.id === item.id)    
+    public async findOne(item: { id: string }): Promise<IMaterial | undefined> {
+        const materialById = await Material
+            .findById(item.id)
+        return (materialById || undefined)    
     }
 
-    public add(item: Material): Material | undefined {
-        materials.push(item)
-        return item    
+    public async add(item: IMaterial): Promise<IMaterial | undefined> {
+        const newItem = new Material(item)
+        const savedItem = await newItem.save()
+        return savedItem    
     }
 
-    public update(item: Material): Material | undefined {
-        const materialIdx = materials.findIndex((material) => material.id === item.id)
-
-        if (materialIdx !== -1){
-            materials[materialIdx] = {...materials[materialIdx], ...item}
-        }
-        return materials[materialIdx]
+    public async update(id: string, item: IMaterial): Promise<IMaterial | undefined> {
+        return (await Material.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
-    public delete(item: { id: string }): Material | undefined {
-        const deletedMaterial = materials.find(o => o.id === item.id)
-        materials = materials.filter(o => o.id !== item.id)
-        return deletedMaterial  
+    public async delete(item: { id: string }): Promise<IMaterial | undefined> {
+        const _id = item.id
+        return (await Material.findOneAndDelete({_id})) || undefined  
     }
 }
 

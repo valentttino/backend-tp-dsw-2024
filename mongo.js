@@ -13,20 +13,9 @@ const url =
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
-
-const testSchema = new mongoose.Schema({
-  content: String,
-  ok: Boolean,
-})
-
-const Test = mongoose.model('Test', testSchema)
-
-const test = new Test({
-  content: 'DB TEST',
-  important: true,
-})
-
-test.save().then((result) => {
-  console.log('test saved!')
-  mongoose.connection.close()
-})
+  .then(() =>{
+    console.log('connected to MongoDB')
+  })
+  .catch((error) =>{
+    console.log('error connecting to MongoDB: ',error.message)
+  })

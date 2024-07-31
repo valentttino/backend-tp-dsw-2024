@@ -9,11 +9,10 @@ POST http://localhost:3006/api/materials
 Content-Type: application/json
 
 {
-    "id":"m285",
-    "name":"cemento",
-    "description":"secado rapido",
-    "stock":1500,
-    "cost": 200
+    "name":"Teclado",
+    "description":"Mecánico con luces RGB",
+    "stock":10,
+    "cost": 25000
 }
 
 ### modificar un material 
@@ -21,9 +20,9 @@ PUT http://localhost:3006/api/materials/m285
 Content-Type: application/json
 
 {
-    "name":"arena",
-    "stock":18
+    "name":"Teclado Gamer",
+    "stock":8
 }
 
 ### borrar un material
-DELETE http://localhost:3006/api/materials/m285
+DELETE http://localhost:3006/api/materials/idMaterial
