@@ -1,45 +1,42 @@
 import { Request, Response } from "express"
 import { CustomerRepository } from "./customer.repository.js"
-import { Customer } from "./customer.entity.js"
-import { Repository } from "../shared/repository.js"
+import { ICustomer } from "./customer.entity.js"
 
 const repository = new CustomerRepository()
 
-function findAll(req: Request, res: Response){
-    res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response){
+    res.json({ data: await repository.findAll() })
 }
 
-function findOne(req: Request, res: Response){
+async function findOne(req: Request, res: Response){
     const idSearch = req.params.id
-    const customer = repository.findOne({id: idSearch})
+    const customer = await repository.findOne({id: idSearch})
     if (!customer) {
         return res.status(404).send({message:'Customer not found'})
     }
     res.json(customer)
 }
 
-function add(req: Request, res: Response){
+async function add(req: Request, res: Response){
     const body = req.body
 
-    const customerNew = new Customer(
-        body.id,        //por ahora, la id es ingresada por el usuario
-        body.dni,
-        body.name,
-        body.address,
-        body.email,
-        body.phone,
-        body.orders
-    )
+    const customerNew: ICustomer = {
+        dni: body.dni,
+        name: body.name,
+        address: body.address,
+        email: body.email,
+        phone: body.phone
+    } as ICustomer
 
-    const customer = repository.add(customerNew)
+    const customer = await repository.add(customerNew)
     return res.status(201).send(customer)
 }
 
-function update(req: Request, res: Response){
+async function update(req: Request, res: Response){
     let body = req.body
     body.id = req.params.id
     
-    const customer = repository.update(body)
+    const customer = await repository.update(body.id, body)
 
     if (!customer) {
         return res.status(404).send({message:'Customer not found'})
@@ -48,9 +45,9 @@ function update(req: Request, res: Response){
     res.status(200).send(customer)
 }
 
-function remove(req: Request, res: Response){
+async function remove(req: Request, res: Response){
     const id = req.params.id
-    const customer = repository.delete({id})
+    const customer = await repository.delete({id})
 
     if (!customer){
         res.status(404).send({message: 'Customer not found'})
