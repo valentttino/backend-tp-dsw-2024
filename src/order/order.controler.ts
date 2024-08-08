@@ -1,44 +1,43 @@
 import { Request, Response } from "express"
 import { OrderRepository } from "./order.repository.js"
-import { Order } from "./order.entity.js"
-import { Repository } from "../shared/repository.js"
+import { IOrder } from "./order.entity.js"
+
 
 const repository = new OrderRepository()
 
-function findAll(req: Request, res: Response){
-    res.json({data: repository.findAll()})
+async function findAll(req: Request, res: Response){
+    res.json({data: await repository.findAll()})
 }
 
-function findOne(req: Request, res: Response){
-    const orderNumberSearch = req.params.orderNumber
-    const order = repository.findOne({id: orderNumberSearch})
+async function findOne(req: Request, res: Response){
+    const idSearch = req.params.id
+    const order = await repository.findOne({id: idSearch})
     if (!order){
         return res.status(404).send({message:'Order not found'})
     }
     res.json(order)
 }
 
-function add(req: Request, res: Response){
+async function add(req: Request, res: Response){
     const body = req.body
 
-    const orderNew = new Order(
-        body.orderNumber,
-        body.idEmployee,
-        body.idCustomer,
-        body.idMaterial,
-        body.totalCost,
-        body.orderDate
-    )
+    const orderNew: IOrder = {
+        idEmployee: body.idEmployee,
+        idCustomer: body.idCustomer,
+        idMaterial: body.idMaterial,
+        totalCost: body.totalCost,
+        orderDate: body.orderDate
+    } as IOrder
 
-    const order = repository.add(orderNew)
+    const order = await repository.add(orderNew)
     return res.status(201).send(order)
 }
 
-function update(req: Request, res: Response){
+async function update(req: Request, res: Response){
     let body = req.body
-    body.orderNumber = req.params.orderNumber
+    body.id = req.params.id
 
-    const order = repository.update(body)
+    const order = await repository.update(body.id, body)
 
     if (!order){
         return res.status(404).send({message:'Order not found'})
@@ -47,10 +46,10 @@ function update(req: Request, res: Response){
     res.status(200).send(order)
 }
 
-function remove(req: Request, res: Response){
-    const id = req.params.orderNumber
+async function remove(req: Request, res: Response){
+    const id = req.params.id
 
-    const order = repository.delete({id})
+    const order = await repository.delete({id})
 
     if(!order){
         res.status(404).send({message:'Order not found'})

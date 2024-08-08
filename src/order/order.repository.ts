@@ -1,45 +1,32 @@
 import { Repository } from "../shared/repository.js"
-import { Order } from "./order.entity.js"
+import { Order, IOrder } from "./order.entity.js"
 
-let orders = [
-    new Order(
-        '1974',
-        'e123',
-        'c123',
-        '74',
-        1800.0,             // float
-        new Date('2024-06-02')          //date
-    )
-]
+export class OrderRepository implements Repository<IOrder>{
 
-export class OrderRepository implements Repository<Order>{
-
-    public findAll(): Order[] | undefined {
-        return orders    
+    public async findAll(): Promise<IOrder[] | undefined> {
+        const orders = await Order
+        return await orders.find().exec()    
     }
 
-    public findOne(item: { id: string }): Order | undefined {
-        return orders.find(o => o.orderNumber === item.id)    
+    public async findOne(item: { id: string }): Promise<IOrder | undefined> {
+        const orderById = await Order
+            .findById(item.id)
+        return (orderById || undefined)    
     }
 
-    public add(item: Order): Order | undefined {
-        orders.push(item)
-        return item    
+    public async add(item: IOrder): Promise<IOrder | undefined> {
+        const newItem = new Order(item)
+        const savedItem = await newItem.save()
+        return savedItem    
     }
 
-    public update(item: Order): Order | undefined {
-        const orderIdx = orders.findIndex((order) => order.orderNumber === item.orderNumber)
-
-        if (orderIdx !== -1){
-            orders[orderIdx] = {...orders[orderIdx], ...item}
-        }
-        return orders[orderIdx]
+    public async update(id: string, item: IOrder): Promise<IOrder | undefined> {
+        return (await Order.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined 
     }
 
-    public delete(item: { id: string }): Order | undefined {
-        const deletedOrder = orders.find(o => o.orderNumber === item.id)
-        orders = orders.filter(o => o.orderNumber !== item.id)
-        return deletedOrder    
+    public async delete(item: { id: string }): Promise<IOrder | undefined> {
+        const _id = item.id
+        return (await Order.findOneAndDelete({_id})) || undefined    
     }
 }
 
