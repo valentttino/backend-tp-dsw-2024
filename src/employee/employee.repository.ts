@@ -1,64 +1,31 @@
 import { Repository } from "../shared/repository.js"
-import { Employee } from "./employee.entity.js"
-import { Order } from "../order/order.entity.js"
+import { Employee , IEmployee} from "./employee.entity.js"
 
-let employees = [
-    new Employee(
-        'e123',
-        '20680001117',
-        '68000111',
-        'Luka Doncic',
-        'Rioja 1905',
-        'ldoncic@gmail.com',
-        '3462343536',
-        [
-            new Order(
-                '1974',
-                'e123',
-                'c123',
-                '74',
-                1800.0,
-                new Date('2024-06-02')
-            ),
-            new Order(
-                '1988',
-                'e123',
-                'c123',
-                '22',
-                1200.0,
-                new Date('2024-06-11')
-            )
-        ]
-    )
-]
+export class EmployeeRepository implements Repository<IEmployee>{
 
-export class EmployeeRepository implements Repository<Employee>{
-
-    public findAll(): Employee[] | undefined {
-        return employees
+    public async findAll(): Promise<IEmployee[] | undefined> {
+        const employees = await Employee
+        return await employees.find().exec()    
     }
 
-    public findOne(item: { id: string; }): Employee | undefined {
-        return employees.find(c => c.id === item.id)
+    public async findOne(item: { id: string }): Promise<IEmployee | undefined> {
+        const employeeById = await Employee
+            .findById(item.id)
+        return (employeeById || undefined)    
     }
 
-    public add(item: Employee): Employee | undefined {
-        employees.push(item)
-        return item
+    public async add(item: IEmployee): Promise<IEmployee | undefined> {
+        const newItem = new Employee(item)
+        const savedItem = await newItem.save()
+        return savedItem    
     }
 
-    public update(item: Employee): Employee | undefined {
-        const employeeIdx = employees.findIndex((employee) => employee.id === item.id)
-
-        if (employeeIdx !== -1) {
-          employees[employeeIdx] = { ...employees[employeeIdx], ...item }
-        }
-        return employees[employeeIdx]
+    public async update(id: string, item: IEmployee): Promise< IEmployee | undefined> {
+        return (await Employee.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
-    public delete(item: { id: string; }): Employee | undefined {
-        const deletedEmployee = employees.find(c => c.id === item.id)
-        employees = employees.filter(c => c.id !== item.id)
-        return deletedEmployee
+    public async delete(item: { id: string }): Promise< IEmployee | undefined> {
+        const _id = item.id
+        return (await Employee.findOneAndDelete({_id})) || undefined  
     }
 }

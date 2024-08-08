@@ -1,46 +1,46 @@
 import { Request, Response } from "express"
 import { EmployeeRepository } from "./employee.repository.js"
-import { Employee } from "./employee.entity.js"
-import { Repository } from "../shared/repository.js"
+import { IEmployee } from "./employee.entity.js"
 
 const repository = new EmployeeRepository()
 
-function findAll(req: Request, res: Response){
-    res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response){
+    res.json({ data: await repository.findAll() })
 }
 
-function findOne(req: Request, res: Response){
+async function findOne(req: Request, res: Response){
     const idSearch = req.params.id
-    const employee = repository.findOne({id: idSearch})
+    const employee = await repository.findOne({id: idSearch})
     if (!employee) {
         return res.status(404).send({message:'Employee not found'})
     }
     res.json(employee)
 }
 
-function add(req: Request, res: Response){
+async function add(req: Request, res: Response){
     const body = req.body
 
-    const employeeNew = new Employee(
-        body.id,        //por ahora, la id es ingresada por el usuario
-        body.dni,
-        body.cuil,
-        body.name,
-        body.address,
-        body.email,
-        body.phone,
-        body.orders
-    )
+    const employeeNew: IEmployee  = {
+         id: body.id,
+        cuil: body.cuil,
+        dni: body.dni,
+        name: body.name,
+        address: body.address,
+       email: body.email, 
+       phone: body.phone, 
+        
 
-    const employee = repository.add(employeeNew)
+    } as IEmployee
+
+    const employee = await repository.add(employeeNew)
     return res.status(201).send(employee)
 }
 
-function update(req: Request, res: Response){
+async function update(req: Request, res: Response){
     let body = req.body
     body.id = req.params.id
     
-    const employee = repository.update(body)
+    const employee = await repository.update(body.id, body)
 
     if (!employee) {
         return res.status(404).send({message:'Employee not found'})
@@ -49,9 +49,9 @@ function update(req: Request, res: Response){
     res.status(200).send(employee)
 }
 
-function remove(req: Request, res: Response){
+async function remove(req: Request, res: Response){
     const id = req.params.id
-    const employee = repository.delete({id})
+    const employee = await repository.delete({id})
 
     if (!employee){
         res.status(404).send({message: 'Employee not found'})
