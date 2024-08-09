@@ -1,44 +1,34 @@
 import { Repository } from "../shared/repository.js"
-import { Payment} from "./payment.entity.js"
+import { Payment, IPayment } from "./payment.entity.js"
 
-let payments = [
-    new Payment(
-        'p2805',
-        'o100',
-        1500,
-        new Date('2024-06-02') 
-    )
-]
+export class PaymentRepository implements Repository<IPayment>{
 
-export class PaymentRepository implements Repository<Payment>{
-
-    public findAll(): Payment[] | undefined {
-        return payments    
+    public async findAll(): Promise<IPayment[] | undefined> {
+        const payment = await Payment
+        return await payment.find().exec()    
     }
 
-    public findOne(item: { id: string }): Payment | undefined {
-        return payments.find(o => o.paymentNumber === item.id)    
+    public async findOne(item: { id: string }): Promise<IPayment | undefined> {
+        const paymentById = await Payment
+            .findById(item.id)
+        return (paymentById || undefined)    
     }
 
-    public add(item: Payment): Payment | undefined {
-        payments.push(item)
-        return item    
+    public async add(item: IPayment): Promise<IPayment | undefined> {
+        const newItem = new Payment(item)
+        const savedItem = await newItem.save()
+        return savedItem    
     }
 
-    public update(item: Payment): Payment | undefined {
-        const paymentIdx = payments.findIndex((payment) => payment.paymentNumber === item.paymentNumber)
-
-        if (paymentIdx !== -1){
-            payments[paymentIdx] = {...payments[paymentIdx], ...item}
-        }
-        return payments[paymentIdx]
+    public async update(id: string, item: IPayment): Promise<IPayment | undefined> {
+        return (await Payment.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
-    public delete(item: { id: string }): Payment | undefined {
-        const deletedPayment = payments.find(o => o.paymentNumber === item.id)
-        payments = payments.filter(o => o.paymentNumber !== item.id)
-        return deletedPayment  
+    public async delete(item: { id: string }): Promise<IPayment | undefined> {
+        const _id = item.id
+        return (await Payment.findOneAndDelete({_id})) || undefined  
     }
 }
+
 
 
