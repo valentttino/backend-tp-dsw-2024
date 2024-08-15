@@ -1,33 +1,25 @@
-import { Order } from "../order/order.entity.js";
 import { Customer } from "./customer.entity.js";
-let customers = [
-    new Customer('c123', '38555222', 'Nicolas Zapata', 'San Luis 1489', 'nzapata@gmail.com', '3425556666', [
-        new Order('1974', 'e123', 'c123', '74', 1800.0, new Date('2024-06-02')),
-        new Order('1988', 'e123', 'c123', '22', 1200.0, new Date('2024-06-11'))
-    ])
-];
 export class CustomerRepository {
-    findAll() {
-        return customers;
+    async findAll() {
+        const customers = await Customer;
+        return await customers.find().exec();
     }
-    findOne(item) {
-        return customers.find(c => c.id === item.id);
+    async findOne(item) {
+        const customerById = await Customer
+            .findById(item.id);
+        return (customerById || undefined);
     }
-    add(item) {
-        customers.push(item);
-        return item;
+    async add(item) {
+        const newItem = new Customer(item);
+        const savedItem = await newItem.save();
+        return savedItem;
     }
-    update(item) {
-        const customerIdx = customers.findIndex((customer) => customer.id === item.id);
-        if (customerIdx !== -1) {
-            customers[customerIdx] = { ...customers[customerIdx], ...item };
-        }
-        return customers[customerIdx];
+    async update(id, item) {
+        return (await Customer.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
-    delete(item) {
-        const deletedCustomer = customers.find(c => c.id === item.id);
-        customers = customers.filter(c => c.id !== item.id);
-        return deletedCustomer;
+    async delete(item) {
+        const _id = item.id;
+        return (await Customer.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=customer.repository.js.map

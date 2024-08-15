@@ -1,36 +1,40 @@
 import { CustomerRepository } from "./customer.repository.js";
-import { Customer } from "./customer.entity.js";
 const repository = new CustomerRepository();
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
+async function findAll(req, res) {
+    res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const idSearch = req.params.id;
-    const customer = repository.findOne({ id: idSearch });
+    const customer = await repository.findOne({ id: idSearch });
     if (!customer) {
         return res.status(404).send({ message: 'Customer not found' });
     }
     res.json(customer);
 }
-function add(req, res) {
+async function add(req, res) {
     const body = req.body;
-    const customerNew = new Customer(body.id, //por ahora, la id es ingresada por el usuario
-    body.dni, body.name, body.address, body.email, body.phone, body.orders);
-    const customer = repository.add(customerNew);
+    const customerNew = {
+        dni: body.dni,
+        name: body.name,
+        address: body.address,
+        email: body.email,
+        phone: body.phone
+    };
+    const customer = await repository.add(customerNew);
     return res.status(201).send(customer);
 }
-function update(req, res) {
+async function update(req, res) {
     let body = req.body;
     body.id = req.params.id;
-    const customer = repository.update(body);
+    const customer = await repository.update(body.id, body);
     if (!customer) {
         return res.status(404).send({ message: 'Customer not found' });
     }
     res.status(200).send(customer);
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const customer = repository.delete({ id });
+    const customer = await repository.delete({ id });
     if (!customer) {
         res.status(404).send({ message: 'Customer not found' });
     }

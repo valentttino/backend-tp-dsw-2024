@@ -1,13 +1,18 @@
-export class Employee {
-    constructor(id, cuil, dni, name, address, email, phone, orders = []) {
-        this.id = id;
-        this.cuil = cuil;
-        this.dni = dni;
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.orders = orders;
+import mongoose from "mongoose";
+const employeeSchema = new mongoose.Schema({
+    cuil: String,
+    dni: String,
+    name: String,
+    address: String,
+    email: String,
+    phone: String,
+});
+employeeSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
     }
-}
+});
+export const Employee = mongoose.model('Employee', employeeSchema);
 //# sourceMappingURL=employee.entity.js.map

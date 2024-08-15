@@ -1,13 +1,11 @@
 import mongoose from "mongoose"
-import { Order } from "../order/order.entity.js"
 
 export interface ICustomer extends Document {
     dni: string,
     name: string,
     address: string,
     email: string,
-    phone: string,
-    orders: Order[],
+    phone: string
 }
 
 const customerSchema = new mongoose.Schema({

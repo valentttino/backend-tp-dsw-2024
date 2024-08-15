@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 
 export interface IEmployee extends Document {
-    id: string,
     cuil: string,
     dni: string,
     name: string,
@@ -12,15 +11,12 @@ export interface IEmployee extends Document {
 }
 
 const employeeSchema = new mongoose.Schema({
-   id: String,
     cuil: String,
     dni: String,
     name: String,
     address: String,
     email: String, 
     phone: String, 
-
-
 })
 
 employeeSchema.set('toJSON', {

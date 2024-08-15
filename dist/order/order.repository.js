@@ -1,31 +1,25 @@
 import { Order } from "./order.entity.js";
-let orders = [
-    new Order('1974', 'e123', 'c123', '74', 1800.0, // float
-    new Date('2024-06-02') //date
-    )
-];
 export class OrderRepository {
-    findAll() {
-        return orders;
+    async findAll() {
+        const orders = await Order;
+        return await orders.find().exec();
     }
-    findOne(item) {
-        return orders.find(o => o.orderNumber === item.id);
+    async findOne(item) {
+        const orderById = await Order
+            .findById(item.id);
+        return (orderById || undefined);
     }
-    add(item) {
-        orders.push(item);
-        return item;
+    async add(item) {
+        const newItem = new Order(item);
+        const savedItem = await newItem.save();
+        return savedItem;
     }
-    update(item) {
-        const orderIdx = orders.findIndex((order) => order.orderNumber === item.orderNumber);
-        if (orderIdx !== -1) {
-            orders[orderIdx] = { ...orders[orderIdx], ...item };
-        }
-        return orders[orderIdx];
+    async update(id, item) {
+        return (await Order.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
-    delete(item) {
-        const deletedOrder = orders.find(o => o.orderNumber === item.id);
-        orders = orders.filter(o => o.orderNumber !== item.id);
-        return deletedOrder;
+    async delete(item) {
+        const _id = item.id;
+        return (await Order.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=order.repository.js.map

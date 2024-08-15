@@ -1,33 +1,25 @@
 import { Employee } from "./employee.entity.js";
-import { Order } from "../order/order.entity.js";
-let employees = [
-    new Employee('e123', '20680001117', '68000111', 'Luka Doncic', 'Rioja 1905', 'ldoncic@gmail.com', '3462343536', [
-        new Order('1974', 'e123', 'c123', '74', 1800.0, new Date('2024-06-02')),
-        new Order('1988', 'e123', 'c123', '22', 1200.0, new Date('2024-06-11'))
-    ])
-];
 export class EmployeeRepository {
-    findAll() {
-        return employees;
+    async findAll() {
+        const employees = await Employee;
+        return await employees.find().exec();
     }
-    findOne(item) {
-        return employees.find(c => c.id === item.id);
+    async findOne(item) {
+        const employeeById = await Employee
+            .findById(item.id);
+        return (employeeById || undefined);
     }
-    add(item) {
-        employees.push(item);
-        return item;
+    async add(item) {
+        const newItem = new Employee(item);
+        const savedItem = await newItem.save();
+        return savedItem;
     }
-    update(item) {
-        const employeeIdx = employees.findIndex((employee) => employee.id === item.id);
-        if (employeeIdx !== -1) {
-            employees[employeeIdx] = { ...employees[employeeIdx], ...item };
-        }
-        return employees[employeeIdx];
+    async update(id, item) {
+        return (await Employee.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
-    delete(item) {
-        const deletedEmployee = employees.find(c => c.id === item.id);
-        employees = employees.filter(c => c.id !== item.id);
-        return deletedEmployee;
+    async delete(item) {
+        const _id = item.id;
+        return (await Employee.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=employee.repository.js.map

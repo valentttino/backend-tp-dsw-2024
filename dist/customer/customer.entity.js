@@ -1,12 +1,17 @@
-export class Customer {
-    constructor(id, dni, name, address, email, phone, orders = []) {
-        this.id = id;
-        this.dni = dni;
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.orders = orders;
+import mongoose from "mongoose";
+const customerSchema = new mongoose.Schema({
+    dni: String,
+    name: String,
+    address: String,
+    email: String,
+    phone: String,
+});
+customerSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
     }
-}
+});
+export const Customer = mongoose.model('Customer', customerSchema);
 //# sourceMappingURL=customer.entity.js.map

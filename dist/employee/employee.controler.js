@@ -1,36 +1,41 @@
 import { EmployeeRepository } from "./employee.repository.js";
-import { Employee } from "./employee.entity.js";
 const repository = new EmployeeRepository();
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
+async function findAll(req, res) {
+    res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const idSearch = req.params.id;
-    const employee = repository.findOne({ id: idSearch });
+    const employee = await repository.findOne({ id: idSearch });
     if (!employee) {
         return res.status(404).send({ message: 'Employee not found' });
     }
     res.json(employee);
 }
-function add(req, res) {
+async function add(req, res) {
     const body = req.body;
-    const employeeNew = new Employee(body.id, //por ahora, la id es ingresada por el usuario
-    body.dni, body.cuil, body.name, body.address, body.email, body.phone, body.orders);
-    const employee = repository.add(employeeNew);
+    const employeeNew = {
+        cuil: body.cuil,
+        dni: body.dni,
+        name: body.name,
+        address: body.address,
+        email: body.email,
+        phone: body.phone,
+    };
+    const employee = await repository.add(employeeNew);
     return res.status(201).send(employee);
 }
-function update(req, res) {
+async function update(req, res) {
     let body = req.body;
     body.id = req.params.id;
-    const employee = repository.update(body);
+    const employee = await repository.update(body.id, body);
     if (!employee) {
         return res.status(404).send({ message: 'Employee not found' });
     }
     res.status(200).send(employee);
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const employee = repository.delete({ id });
+    const employee = await repository.delete({ id });
     if (!employee) {
         res.status(404).send({ message: 'Employee not found' });
     }

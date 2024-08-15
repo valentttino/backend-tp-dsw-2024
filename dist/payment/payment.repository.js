@@ -1,29 +1,25 @@
 import { Payment } from "./payment.entity.js";
-let payments = [
-    new Payment('p2805', 'o100', 1500, new Date('2024-06-02'))
-];
 export class PaymentRepository {
-    findAll() {
-        return payments;
+    async findAll() {
+        const payment = await Payment;
+        return await payment.find().exec();
     }
-    findOne(item) {
-        return payments.find(o => o.paymentNumber === item.id);
+    async findOne(item) {
+        const paymentById = await Payment
+            .findById(item.id);
+        return (paymentById || undefined);
     }
-    add(item) {
-        payments.push(item);
-        return item;
+    async add(item) {
+        const newItem = new Payment(item);
+        const savedItem = await newItem.save();
+        return savedItem;
     }
-    update(item) {
-        const paymentIdx = payments.findIndex((payment) => payment.paymentNumber === item.paymentNumber);
-        if (paymentIdx !== -1) {
-            payments[paymentIdx] = { ...payments[paymentIdx], ...item };
-        }
-        return payments[paymentIdx];
+    async update(id, item) {
+        return (await Payment.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
-    delete(item) {
-        const deletedPayment = payments.find(o => o.paymentNumber === item.id);
-        payments = payments.filter(o => o.paymentNumber !== item.id);
-        return deletedPayment;
+    async delete(item) {
+        const _id = item.id;
+        return (await Payment.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=payment.repository.js.map

@@ -1,29 +1,25 @@
 import { Material } from "./material.entity.js";
-let materials = [
-    new Material('m285', 'cemento', 'secado rapido', 1500)
-];
 export class MaterialRepository {
-    findAll() {
-        return materials;
+    async findAll() {
+        const materials = await Material;
+        return await materials.find().exec();
     }
-    findOne(item) {
-        return materials.find(o => o.id === item.id);
+    async findOne(item) {
+        const materialById = await Material
+            .findById(item.id);
+        return (materialById || undefined);
     }
-    add(item) {
-        materials.push(item);
-        return item;
+    async add(item) {
+        const newItem = new Material(item);
+        const savedItem = await newItem.save();
+        return savedItem;
     }
-    update(item) {
-        const materialIdx = materials.findIndex((material) => material.id === item.id);
-        if (materialIdx !== -1) {
-            materials[materialIdx] = { ...materials[materialIdx], ...item };
-        }
-        return materials[materialIdx];
+    async update(id, item) {
+        return (await Material.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
-    delete(item) {
-        const deletedMaterial = materials.find(o => o.id === item.id);
-        materials = materials.filter(o => o.id !== item.id);
-        return deletedMaterial;
+    async delete(item) {
+        const _id = item.id;
+        return (await Material.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=material.repository.js.map
