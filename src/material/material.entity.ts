@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 export interface IMaterial extends Document {
     name: string,
     description: string,
+    brand: string,
+    category: string,
     stock: number,
     cost: number
 }
@@ -10,6 +12,8 @@ export interface IMaterial extends Document {
 const materialSchema = new mongoose.Schema({
     name: String,
     description: String,
+    brand: String,
+    category: String,
     stock: Number,
     cost: Number
 })

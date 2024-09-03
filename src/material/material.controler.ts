@@ -23,6 +23,8 @@ async function add(req: Request, res: Response){
     const materialNew: IMaterial = {
         name: body.name,
         description: body.description,
+        brand: body.brand,
+        category: body.category,
         stock: body.stock,
         cost: body.cost
     } as IMaterial
