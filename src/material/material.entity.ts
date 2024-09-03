@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 
 export interface IMaterial extends Document {
+    image: string,
     name: string,
     description: string,
     brand: string,
@@ -10,6 +11,7 @@ export interface IMaterial extends Document {
 }
 
 const materialSchema = new mongoose.Schema({
+    image: String,
     name: String,
     description: String,
     brand: String,
