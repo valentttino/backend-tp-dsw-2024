@@ -6,8 +6,8 @@ export interface IEmployee extends Document {
     name: string,
     address: string,
     email: string, 
-    phone: string, 
-
+    phone: string,
+    role: string
 }
 
 const employeeSchema = new mongoose.Schema({
@@ -16,7 +16,8 @@ const employeeSchema = new mongoose.Schema({
     name: String,
     address: String,
     email: String, 
-    phone: String, 
+    phone: String,
+    role: String 
 })
 
 employeeSchema.set('toJSON', {

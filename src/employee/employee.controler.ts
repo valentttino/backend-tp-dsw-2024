@@ -26,7 +26,8 @@ async function add(req: Request, res: Response){
         name: body.name,
         address: body.address,
        email: body.email, 
-       phone: body.phone, 
+       phone: body.phone,
+       role: body.role 
     } as IEmployee
 
     const employee = await repository.add(employeeNew)
