@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import { MaterialRepository } from "./material.repository.js"
 import { IMaterial } from "./material.entity.js"
+import { upload } from "../config/multer.js"
+import { uploadFile } from "../utils/uploadFile.js"
 
 const repository = new MaterialRepository()
 
@@ -18,19 +20,38 @@ async function findOne(req: Request, res: Response){
 }
 
 async function add(req: Request, res: Response){
-    const body = req.body
+    upload.single('image')(req, res, async (err: any) => {
+        if(err){
+            res.status(500).json({message: err.message})
+            return
+        }
 
-    const materialNew: IMaterial = {
-        name: body.name,
-        description: body.description,
-        brand: body.brand,
-        category: body.category,
-        stock: body.stock,
-        cost: body.cost
-    } as IMaterial
+        try{
+            const body = req.body
+            const image = req.file
+            let imageUrl: string | null = null
 
-    const material = await repository.add(materialNew)
-    return res.status(201).send(material)
+            if(image){
+                const {downloadURL} = await uploadFile(image)
+                imageUrl = downloadURL
+            }
+
+            const materialNew: IMaterial = {
+                image: imageUrl,
+                name: body.name,
+                description: body.description,
+                brand: body.brand,
+                category: body.category,
+                stock: body.stock,
+                cost: body.cost
+            } as IMaterial
+
+            const material = await repository.add(materialNew)
+            res.status(201).send(material)
+        } catch(err: any){
+            res.status(500).json({message: err.message})
+        }
+    })
 }
 
 async function update(req: Request, res: Response){
