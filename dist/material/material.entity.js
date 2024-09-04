@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 const materialSchema = new mongoose.Schema({
+    image: String,
     name: String,
     description: String,
+    brand: String,
+    category: String,
     stock: Number,
     cost: Number
 });

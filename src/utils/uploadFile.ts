@@ -26,6 +26,6 @@ export async function uploadFile (file: Express.Multer.File) {
   await fileUploadPromise
 
   const fileDownloadURL = await getDownloadURL(fileRef)
-  
+
   return { ref: fileRef, downloadURL: fileDownloadURL }
 }

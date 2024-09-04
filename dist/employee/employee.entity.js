@@ -3,9 +3,11 @@ const employeeSchema = new mongoose.Schema({
     cuil: String,
     dni: String,
     name: String,
+    password: String,
     address: String,
     email: String,
     phone: String,
+    role: String
 });
 employeeSchema.set('toJSON', {
     transform: (document, returnedObject) => {
