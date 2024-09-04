@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { EmployeeRepository } from "./employee.repository.js"
 import { IEmployee } from "./employee.entity.js"
+import bcrypt from 'bcrypt'
 
 const repository = new EmployeeRepository()
 
@@ -17,14 +18,21 @@ async function findOne(req: Request, res: Response){
     res.json(employee)
 }
 
+async function hashPassword(password: string): Promise<String>{
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    return hashedPassword
+}
+
 async function add(req: Request, res: Response){
     const body = req.body
+    const hashedPassword = await hashPassword(body.password)
 
     const employeeNew: IEmployee  = {
         cuil: body.cuil,
         dni: body.dni,
         name: body.name,
-        password: body.password,
+        password: hashedPassword,
         address: body.address,
         email: body.email, 
         phone: body.phone,

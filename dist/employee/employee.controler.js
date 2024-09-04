@@ -1,4 +1,5 @@
 import { EmployeeRepository } from "./employee.repository.js";
+import bcrypt from 'bcrypt';
 const repository = new EmployeeRepository();
 async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
@@ -11,15 +12,23 @@ async function findOne(req, res) {
     }
     res.json(employee);
 }
+async function hashPassword(password) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+}
 async function add(req, res) {
     const body = req.body;
+    const hashedPassword = await hashPassword(body.password);
     const employeeNew = {
         cuil: body.cuil,
         dni: body.dni,
         name: body.name,
+        password: hashedPassword,
         address: body.address,
         email: body.email,
         phone: body.phone,
+        role: body.role
     };
     const employee = await repository.add(employeeNew);
     return res.status(201).send(employee);
