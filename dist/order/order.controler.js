@@ -18,7 +18,8 @@ async function add(req, res) {
         idCustomer: body.idCustomer,
         idMaterial: body.idMaterial,
         totalCost: body.totalCost,
-        orderDate: body.orderDate
+        orderDate: body.orderDate,
+        details: body.details
     };
     const order = await repository.add(orderNew);
     return res.status(201).send(order);

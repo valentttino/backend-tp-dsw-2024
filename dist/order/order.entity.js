@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
+const orderDetailSchema = new mongoose.Schema({
+    quantity: { type: Number, required: true },
+    price: { type: Number, required: true }
+});
 const orderSchema = new mongoose.Schema({
-    idEmployee: String,
-    idCustomer: String,
-    idMaterial: String,
-    totalCost: Number,
-    orderDate: Date
+    idEmployee: { type: String, required: true },
+    idCustomer: { type: String, required: true },
+    idMaterial: { type: String, required: true },
+    totalCost: { type: Number, required: true },
+    orderDate: { type: Date, required: true },
+    details: [orderDetailSchema] // Array de subdocumentos para los detalles
 });
 orderSchema.set('toJSON', {
     transform: (document, returnedObject) => {

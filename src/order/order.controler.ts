@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { OrderRepository } from "./order.repository.js"
 import { IOrder } from "./order.entity.js"
+import { defaultMaxListeners } from "events"
 
 
 const repository = new OrderRepository()
@@ -26,7 +27,8 @@ async function add(req: Request, res: Response){
         idCustomer: body.idCustomer,
         idMaterial: body.idMaterial,
         totalCost: body.totalCost,
-        orderDate: body.orderDate
+        orderDate: body.orderDate,
+        details: body.details
     } as IOrder
 
     const order = await repository.add(orderNew)
