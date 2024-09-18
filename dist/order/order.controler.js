@@ -16,7 +16,6 @@ async function add(req, res) {
     const orderNew = {
         idEmployee: body.idEmployee,
         idCustomer: body.idCustomer,
-        idMaterial: body.idMaterial,
         totalCost: body.totalCost,
         orderDate: body.orderDate,
         details: body.details
