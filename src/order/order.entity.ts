@@ -11,6 +11,7 @@ export interface IOrder extends mongoose.Document {
     totalCost: number
     orderDate: Date
     details: IOrderDetail[]
+    id: string
 }
 
 const orderDetailSchema = new mongoose.Schema({
