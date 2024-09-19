@@ -8,10 +8,16 @@ export class EmployeeRepository implements Repository<IEmployee>{
         return await employees.find().exec()    
     }
 
-    public async findOne(item: { id: string }): Promise<IEmployee | undefined> {
-        const employeeById = await Employee
-            .findById(item.id)
-        return (employeeById || undefined)    
+    public async findOne(item: { id?: string, cuil?: string }): Promise<IEmployee | undefined> {
+        let employee: IEmployee | null = null
+        if(item.id){
+            employee = await Employee
+                .findById(item.id)
+        }else if (item.cuil){
+            employee = await Employee
+                .findOne({cuil: item.cuil})
+        }
+        return (employee || undefined)    
     }
 
     public async add(item: IEmployee): Promise<IEmployee | undefined> {

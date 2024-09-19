@@ -7,6 +7,7 @@ import { employeeRouter } from './employee/employee.routes.js'
 import { orderRouter } from './order/order.routes.js'
 import { materialRouter } from './material/material.routes.js'
 import { paymentRouter } from './payment/payment.routes.js'
+import { loginRouter } from './login/login.routes.js'
 
 dotenv.config()
 
@@ -41,6 +42,7 @@ app.use('/api/materials', materialRouter)
 
 app.use('/api/payments', paymentRouter)
 
+app.use('/api/login', loginRouter)
 
 app.use((_,res) => {
     return res.status(404).send({message: 'Resource not found'})
