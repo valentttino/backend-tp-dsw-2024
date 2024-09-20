@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 interface IOrderDetail {
+    idProduct: string
     quantity: number
     price: number
 }

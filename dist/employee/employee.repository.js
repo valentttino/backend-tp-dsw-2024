@@ -5,9 +5,16 @@ export class EmployeeRepository {
         return await employees.find().exec();
     }
     async findOne(item) {
-        const employeeById = await Employee
-            .findById(item.id);
-        return (employeeById || undefined);
+        let employee = null;
+        if (item.id) {
+            employee = await Employee
+                .findById(item.id);
+        }
+        else if (item.cuil) {
+            employee = await Employee
+                .findOne({ cuil: item.cuil });
+        }
+        return (employee || undefined);
     }
     async add(item) {
         const newItem = new Employee(item);

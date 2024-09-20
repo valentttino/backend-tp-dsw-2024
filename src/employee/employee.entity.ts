@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 
 export interface IEmployee extends Document {
+    id: string,
     cuil: string,
     dni: string,
     name: string,
