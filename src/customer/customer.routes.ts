@@ -1,10 +1,10 @@
 import { Router } from "express"
-import { findAll, findOne, add, update, remove } from "./customer.controler.js"
+import { sanitizeCustomerInput, findAll, findOne, add, update, remove } from "./customer.controler.js"
 
 export const customerRouter = Router()
 
 customerRouter.get('/', findAll)
 customerRouter.get('/:id', findOne)
-customerRouter.post('/', add)
-customerRouter.put('/:id', update)
+customerRouter.post('/', sanitizeCustomerInput, add)
+customerRouter.put('/:id', sanitizeCustomerInput, update)
 customerRouter.delete('/:id', remove)

@@ -1,8 +1,25 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { CustomerRepository } from "./customer.repository.js"
 import { ICustomer } from "./customer.entity.js"
 
 const repository = new CustomerRepository()
+
+function sanitizeCustomerInput(req: Request, res: Response, next: NextFunction) {
+    req.body.sanitizedInput = {
+      name: req.body.name,
+      dni: req.body.dni,
+      address: req.body.address,
+      email: req.body.email,
+      phone: req.body.phone,
+    }
+  
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+      if (req.body.sanitizedInput[key] === undefined || req.body.sanitizedInput[key] === null || req.body.sanitizedInput[key] === '') {
+        delete req.body.sanitizedInput[key]
+      }
+    })
+    next()
+}
 
 async function findAll(req: Request, res: Response){
     res.json({ data: await repository.findAll() })
@@ -18,14 +35,14 @@ async function findOne(req: Request, res: Response){
 }
 
 async function add(req: Request, res: Response){
-    const body = req.body
+    const input = req.body.sanitizedInput
 
     const customerNew: ICustomer = {
-        dni: body.dni,
-        name: body.name,
-        address: body.address,
-        email: body.email,
-        phone: body.phone
+        dni: input.dni,
+        name: input.name,
+        address: input.address,
+        email: input.email,
+        phone: input.phone
     } as ICustomer
 
     const customer = await repository.add(customerNew)
@@ -33,10 +50,7 @@ async function add(req: Request, res: Response){
 }
 
 async function update(req: Request, res: Response){
-    let body = req.body
-    body.id = req.params.id
-    
-    const customer = await repository.update(body.id, body)
+    const customer = await repository.update(req.params.id, req.body.sanitizedInput)
 
     if (!customer) {
         return res.status(404).send({message:'Customer not found'})
@@ -56,4 +70,4 @@ async function remove(req: Request, res: Response){
     }
 }
 
-export {findAll, findOne, add, update, remove}
+export {sanitizeCustomerInput, findAll, findOne, add, update, remove}
