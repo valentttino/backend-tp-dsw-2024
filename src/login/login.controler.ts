@@ -33,6 +33,7 @@ export const loginUser = async(req: Request, res: Response) =>{
   res.status(200).json({
     token,
     cuil: employee.cuil,
-    name: employee.name
+    name: employee.name,
+    id: employee.id
   })
 }
