@@ -1,10 +1,47 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { OrderRepository } from "./order.repository.js"
 import { IOrder } from "./order.entity.js"
+import { IOrderDetail } from './order.entity.js';
 import { defaultMaxListeners } from "events"
 
 
 const repository = new OrderRepository()
+
+function sanitizeOrderInput(req: Request, res: Response, next: NextFunction) {
+    req.body.sanitizedInput = {
+        idEmployee: req.body.idEmployee,
+        idCustomer: req.body.idCustomer,
+        totalCost: req.body.totalCost,
+        orderDate: req.body.orderDate,
+        details: req.body.details?.map((detail: IOrderDetail) => ({
+            idProduct: detail.idProduct,
+            quantity: detail.quantity,
+            price: detail.price
+        })) || []
+    };
+
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+        if (
+            req.body.sanitizedInput[key] === undefined || 
+            req.body.sanitizedInput[key] === null || 
+            req.body.sanitizedInput[key] === ''
+        ) {
+            delete req.body.sanitizedInput[key];
+        }
+    });
+
+    if (req.body.sanitizedInput.details.length > 0) {
+        req.body.sanitizedInput.details = req.body.sanitizedInput.details.filter((detail: IOrderDetail) => {
+            return (
+                detail.idProduct &&
+                detail.quantity !== undefined &&
+                detail.price !== undefined
+            );
+        });
+    }
+
+    next();
+}
 
 async function findAll(req: Request, res: Response){
     res.json({data: await repository.findAll()})
@@ -59,4 +96,4 @@ async function remove(req: Request, res: Response){
     }
 }
 
-export {findAll, findOne, add, update, remove}
+export {sanitizeOrderInput, findAll, findOne, add, update, remove}

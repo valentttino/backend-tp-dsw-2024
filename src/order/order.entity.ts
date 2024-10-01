@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface IOrderDetail {
+export interface IOrderDetail {
     idProduct: string
     quantity: number
     price: number
