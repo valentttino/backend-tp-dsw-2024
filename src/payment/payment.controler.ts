@@ -22,7 +22,7 @@ async function add(req: Request, res: Response){
 
     const paymentNew: IPayment = {
         idOrder: body.idOrder,
-        numberOfInstallents: body.numberOfInstallents,
+        numberOfInstallments: body.numberOfInstallments,
         paid: body.paid,
         installmentsDetails: body.installmentsDetails
     } as IPayment

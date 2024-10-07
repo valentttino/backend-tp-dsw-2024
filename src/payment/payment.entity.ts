@@ -9,7 +9,7 @@ export interface IInstallmentsDetails {
 
 export interface IPayment extends Document {
     idOrder: string,
-    numberOfInstallents: number,
+    numberOfInstallments: number,
     paid: string,
     installmentsDetails: IInstallmentsDetails[],
     id: string
