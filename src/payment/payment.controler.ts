@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { PaymentRepository } from "./payment.repository.js"
-import { IPayment } from "./payment.entity.js"
+import { IPayment, IInstallmentsDetails } from "./payment.entity.js"
 
 const repository = new PaymentRepository()
 
@@ -21,10 +21,10 @@ async function add(req: Request, res: Response){
     const body = req.body
 
     const paymentNew: IPayment = {
-        paymentNumber: body.paymentNumber,
-        orderNumber: body.orderNumber,
-        amount: body.amount,
-        orderDate: body.orderDate
+        idOrder: body.idOrder,
+        numberOfInstallents: body.numberOfInstallents,
+        paid: body.paid,
+        installmentsDetails: body.installmentsDetails
     } as IPayment
 
     const payment = await repository.add(paymentNew)
