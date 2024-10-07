@@ -10,6 +10,7 @@ export interface IOrder extends mongoose.Document {
     idEmployee: string
     idCustomer: string
     totalCost: number
+    paymentMethod: string
     orderDate: Date
     details: IOrderDetail[]
     id: string
@@ -25,6 +26,7 @@ const orderSchema = new mongoose.Schema({
     idEmployee: { type: String, required: true },
     idCustomer: { type: String, required: true },
     totalCost: { type: Number, required: true },
+    paymentMethod: {type: String, required: true}, // C: Cash, I: Instalment
     orderDate: { type: Date, required: true },
     details: [orderDetailSchema]  // Array de subdocumentos para los detalles
 })
