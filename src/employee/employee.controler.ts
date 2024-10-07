@@ -1,9 +1,30 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { EmployeeRepository } from "./employee.repository.js"
 import { IEmployee } from "./employee.entity.js"
 import bcrypt from 'bcrypt'
 
 const repository = new EmployeeRepository()
+
+function sanitizeEmployeeInput(req: Request, res: Response, next: NextFunction) {
+    req.body.sanitizedInput = {
+      id: req.body.id,
+      cuil: req.body.cuil,
+      address: req.body.address,
+      name: req.body.name,
+      password: req.body.password,
+      dni: req.body.dni,
+      email: req.body.email,
+      phone: req.body.phone,
+      role: req.body.role,
+    }
+  
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+      if (req.body.sanitizedInput[key] === undefined || req.body.sanitizedInput[key] === null || req.body.sanitizedInput[key] === '') {
+        delete req.body.sanitizedInput[key]
+      }
+    })
+    next()
+}
 
 async function findAll(req: Request, res: Response){
     res.json({ data: await repository.findAll() })
@@ -27,16 +48,18 @@ async function hashPassword(password: string): Promise<String>{
 async function add(req: Request, res: Response){
     const body = req.body
     const hashedPassword = await hashPassword(body.password)
+    const input = req.body.sanitizedInput
+
 
     const employeeNew: IEmployee  = {
-        cuil: body.cuil,
-        dni: body.dni,
-        name: body.name,
+        cuil: input.cuil,
+        dni: input.dni,
+        name: input.name,
         password: hashedPassword,
-        address: body.address,
-        email: body.email, 
-        phone: body.phone,
-        role: body.role 
+        address: input.address,
+        email: input.email, 
+        phone: input.phone,
+        role: input.role 
     } as IEmployee
 
     const employee = await repository.add(employeeNew)
@@ -44,6 +67,7 @@ async function add(req: Request, res: Response){
 }
 
 async function update(req: Request, res: Response){
+    const Employee = await repository.update(req.params.id, req.body.sanitizedInput)
     let body = req.body
     body.id = req.params.id
     
@@ -67,4 +91,4 @@ async function remove(req: Request, res: Response){
     }
 }
 
-export {findAll, findOne, add, update, remove}
+export {sanitizeEmployeeInput, findAll, findOne, add, update, remove}
