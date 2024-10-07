@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { OrderRepository } from "./order.repository.js"
 import { IOrder } from "./order.entity.js"
-import { IOrderDetail } from './order.entity.js';
-import { defaultMaxListeners } from "events"
-
+import { IOrderDetail } from './order.entity.js'
 
 const repository = new OrderRepository()
 
@@ -12,13 +10,14 @@ function sanitizeOrderInput(req: Request, res: Response, next: NextFunction) {
         idEmployee: req.body.idEmployee,
         idCustomer: req.body.idCustomer,
         totalCost: req.body.totalCost,
+        paymentMethod: req.body.paymentMethod,
         orderDate: req.body.orderDate,
         details: req.body.details?.map((detail: IOrderDetail) => ({
             idProduct: detail.idProduct,
             quantity: detail.quantity,
             price: detail.price
         })) || []
-    };
+    }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {
         if (
@@ -26,9 +25,9 @@ function sanitizeOrderInput(req: Request, res: Response, next: NextFunction) {
             req.body.sanitizedInput[key] === null || 
             req.body.sanitizedInput[key] === ''
         ) {
-            delete req.body.sanitizedInput[key];
+            delete req.body.sanitizedInput[key]
         }
-    });
+    })
 
     if (req.body.sanitizedInput.details.length > 0) {
         req.body.sanitizedInput.details = req.body.sanitizedInput.details.filter((detail: IOrderDetail) => {
@@ -36,11 +35,11 @@ function sanitizeOrderInput(req: Request, res: Response, next: NextFunction) {
                 detail.idProduct &&
                 detail.quantity !== undefined &&
                 detail.price !== undefined
-            );
-        });
+            )
+        })
     }
 
-    next();
+    next()
 }
 
 async function findAll(req: Request, res: Response){
@@ -63,6 +62,7 @@ async function add(req: Request, res: Response){
         idEmployee: body.idEmployee,
         idCustomer: body.idCustomer,
         totalCost: body.totalCost,
+        paymentMethod: body.paymentMethod,
         orderDate: body.orderDate,
         details: body.details
     } as IOrder

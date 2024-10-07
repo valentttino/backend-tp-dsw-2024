@@ -1,17 +1,32 @@
 import mongoose from "mongoose"
 
-export interface IPayment extends Document {
-    paymentNumber: string,
-    orderNumber: string,
+export interface IInstallmentsDetails {
+    installmentN: number, 
+    paymentDate: Date,
     amount: number,
-    orderDate: Date
+    paid: string
 }
 
+export interface IPayment extends Document {
+    idOrder: string,
+    numberOfInstallments: number,
+    paid: string,
+    installmentsDetails: IInstallmentsDetails[],
+    id: string
+}
+
+const installmentsDetailsSchema = new mongoose.Schema({
+    installmentN: {type: Number, required: true}, 
+    paymentDate: {type: Date, required: true},
+    amount: {type: Number, required: true},
+    paid: {type: String, required: true}, //Y: Yes. N: No.
+})
+
 const paymentSchema = new mongoose.Schema({
-    paymentNumber: String,
-    orderNumber: String,
-    amount: Number,
-    orderDate: Date
+    idOrder: {type: String, required: true},
+    numberOfInstallments: {type: Number, required: true},
+    paid: {type: String, required: true}, //Y: Yes, total. N: Not yet.
+    installmentsDetails: [installmentsDetailsSchema]
 })
 
 paymentSchema.set('toJSON', {
