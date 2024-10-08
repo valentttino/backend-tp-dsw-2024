@@ -6,10 +6,10 @@ const repository = new PaymentRepository()
 
 function sanitizePaymentInput(req: Request, res: Response, next: NextFunction) {
         req.body.sanitizedInput = {
-        numberOfInstallments: req.body.numberOfInstallments,
-        paid: req.body.paid,
-        installmentsDetails: req.body.installmentsDetails,
-        id: req.body.id
+            idOrder: req.body.idOrder,
+            numberOfInstallments: req.body.numberOfInstallments,
+            paid: req.body.paid,
+            installmentsDetails: req.body.installmentsDetails,
     }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {

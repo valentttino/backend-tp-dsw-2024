@@ -4,7 +4,8 @@ export interface IInstallmentsDetails {
     installmentN: number, 
     paymentDate: Date,
     amount: number,
-    paid: string
+    paid: string,
+    _id: string
 }
 
 export interface IPayment extends Document {
