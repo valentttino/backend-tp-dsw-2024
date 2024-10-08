@@ -1,8 +1,25 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { PaymentRepository } from "./payment.repository.js"
 import { IPayment, IInstallmentsDetails } from "./payment.entity.js"
 
 const repository = new PaymentRepository()
+
+function sanitizePaymentInput(req: Request, res: Response, next: NextFunction) {
+        req.body.sanitizedInput = {
+        idOrder: req.body.idOrder,
+        numberOfInstallments: req.body.numberOfInstallments,
+        paid: req.body.paid,
+        installmentsDetails: req.body.installmentsDetails,
+        id: req.body.id,
+    }
+
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+        if (req.body.sanitizedInput[key] === undefined || req.body.sanitizedInput[key] === null || req.body.sanitizedInput[key] === '') {
+        delete req.body.sanitizedInput[key]
+        }
+    })
+    next()
+}
 
 async function findAll(req: Request, res: Response){
     res.json({ data: await repository.findAll() })
