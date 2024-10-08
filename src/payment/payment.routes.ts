@@ -1,10 +1,10 @@
 import { Router } from "express"
-import { findAll, findOne, add, update, remove } from "./payment.controler.js"
+import { sanitizePaymentInput, findAll, findOne, add, update, remove } from "./payment.controler.js"
 
 export const paymentRouter = Router()
 
 paymentRouter.get('/', findAll)
 paymentRouter.get('/:id', findOne)
-paymentRouter.post('/', add)
-paymentRouter.put('/:id', update)
+paymentRouter.post('/', sanitizePaymentInput, add)
+paymentRouter.put('/:id', sanitizePaymentInput, update)
 paymentRouter.delete('/:id', remove)

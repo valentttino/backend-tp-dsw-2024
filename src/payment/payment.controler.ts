@@ -6,11 +6,10 @@ const repository = new PaymentRepository()
 
 function sanitizePaymentInput(req: Request, res: Response, next: NextFunction) {
         req.body.sanitizedInput = {
-        idOrder: req.body.idOrder,
         numberOfInstallments: req.body.numberOfInstallments,
         paid: req.body.paid,
         installmentsDetails: req.body.installmentsDetails,
-        id: req.body.id,
+        id: req.body.id
     }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -35,13 +34,13 @@ async function findOne(req: Request, res: Response){
 }
 
 async function add(req: Request, res: Response){
-    const body = req.body
+    const input = req.body.sanitizedInput
 
     const paymentNew: IPayment = {
-        idOrder: body.idOrder,
-        numberOfInstallments: body.numberOfInstallments,
-        paid: body.paid,
-        installmentsDetails: body.installmentsDetails
+        idOrder: input.idOrder,
+        numberOfInstallments: input.numberOfInstallments,
+        paid: input.paid,
+        installmentsDetails: input.installmentsDetails
     } as IPayment
 
     const payment = await repository.add(paymentNew)
@@ -72,4 +71,4 @@ async function remove(req: Request, res: Response){
     }
 }
 
-export {findAll, findOne, add, update, remove}
+export {findAll, findOne, add, update, remove, sanitizePaymentInput}
