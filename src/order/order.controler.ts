@@ -56,15 +56,15 @@ async function findOne(req: Request, res: Response){
 }
 
 async function add(req: Request, res: Response){
-    const body = req.body
+    const input = req.body.sanitizedInput
 
     const orderNew: IOrder = {
-        idEmployee: body.idEmployee,
-        idCustomer: body.idCustomer,
-        totalCost: body.totalCost,
-        paymentMethod: body.paymentMethod,
-        orderDate: body.orderDate,
-        details: body.details
+        idEmployee: input.idEmployee,
+        idCustomer: input.idCustomer,
+        totalCost: input.totalCost,
+        paymentMethod: input.paymentMethod,
+        orderDate: input.orderDate,
+        details: input.details
     } as IOrder
 
     const order = await repository.add(orderNew)
@@ -72,10 +72,10 @@ async function add(req: Request, res: Response){
 }
 
 async function update(req: Request, res: Response){
-    let body = req.body
-    body.id = req.params.id
+    let input = req.body.sanitizedInput
+    input.id = req.params.id
 
-    const order = await repository.update(body.id, body)
+    const order = await repository.update(input.id, input)
 
     if (!order){
         return res.status(404).send({message:'Order not found'})
