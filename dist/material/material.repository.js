@@ -15,7 +15,7 @@ export class MaterialRepository {
         return savedItem;
     }
     async update(id, item) {
-        return (await Material.findOneAndUpdate({ id }, { $set: item }, { returnDocument: 'after' })) || undefined;
+        return (await Material.findOneAndUpdate({ _id: id }, { $set: item }, { returnDocument: 'after' })) || undefined;
     }
     async delete(item) {
         const _id = item.id;
