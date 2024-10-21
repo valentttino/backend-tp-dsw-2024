@@ -21,52 +21,73 @@ function sanitizeCustomerInput(req: Request, res: Response, next: NextFunction) 
     next()
 }
 
-async function findAll(req: Request, res: Response){
-    res.json({ data: await repository.findAll() })
-}
-
-async function findOne(req: Request, res: Response){
-    const idSearch = req.params.id
-    const customer = await repository.findOne({id: idSearch})
-    if (!customer) {
-        return res.status(404).send({message:'Customer not found'})
+async function findAll(req: Request, res: Response) {
+    try {
+        const customers = await repository.findAll()
+        res.json({ data: customers })
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while fetching customers.' })
     }
-    res.json(customer)
 }
 
-async function add(req: Request, res: Response){
-    const input = req.body.sanitizedInput
-
-    const customerNew: ICustomer = {
-        dni: input.dni,
-        name: input.name,
-        address: input.address,
-        email: input.email,
-        phone: input.phone
-    } as ICustomer
-
-    const customer = await repository.add(customerNew)
-    return res.status(201).send(customer)
-}
-
-async function update(req: Request, res: Response){
-    const customer = await repository.update(req.params.id, req.body.sanitizedInput)
-
-    if (!customer) {
-        return res.status(404).send({message:'Customer not found'})
+async function findOne(req: Request, res: Response) {
+    try {
+        const idSearch = req.params.id;
+        const customer = await repository.findOne({ id: idSearch })
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' })
+        }
+        res.json(customer)
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while fetching the customer.' })
     }
-
-    res.status(200).send(customer)
 }
 
-async function remove(req: Request, res: Response){
-    const id = req.params.id
-    const customer = await repository.delete({id})
+async function add(req: Request, res: Response) {
+    try {
+        const input = req.body.sanitizedInput
 
-    if (!customer){
-        res.status(404).send({message: 'Customer not found'})
-    } else{
-        res.status(200).send({message: 'Customer deleted successfully'})
+        const customerNew: ICustomer = {
+            dni: input.dni,
+            name: input.name,
+            address: input.address,
+            email: input.email,
+            phone: input.phone,
+        } as ICustomer
+
+        const customer = await repository.add(customerNew)
+        res.status(201).send(customer)
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while adding the customer.' })
+    }
+}
+
+async function update(req: Request, res: Response) {
+    try {
+        const customer = await repository.update(req.params.id, req.body.sanitizedInput)
+
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' })
+        }
+
+        res.status(200).send(customer)
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while updating the customer.' })
+    }
+}
+
+async function remove(req: Request, res: Response) {
+    try {
+        const id = req.params.id
+        const customer = await repository.delete({ id })
+
+        if (!customer) {
+            res.status(404).send({ message: 'Customer not found' })
+        } else {
+            res.status(200).send({ message: 'Customer deleted successfully' })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while deleting the customer.' })
     }
 }
 
