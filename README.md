@@ -14,10 +14,7 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ## Instalación
 
-1. Clona el repositorio:
-   ```sh
-   git clone https://github.com/tu-usuario/tu-repo-backend.git
-   cd tu-repo-backend```
+1. Clona el repositorio: https://github.com/valentttino/backend-tp-dsw-2024
   
 2. Instala las dependencias con pnpm:
   ```pnpm install```
