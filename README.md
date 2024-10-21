@@ -31,41 +31,20 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 ### Customers
 
-**GET ALL CUSTOMERS:** /api/customers
-**GET ONE CUSTOMER:** /api/customers/:id
-**POST:** /api/customers
-**PUT:** /api/customers/:id
-**DELETE:** /api/customers/:id
+/api/customers
 
 ### Employees
 
-**GET ALL EMPLOYEES:** /api/employees
-**GET ONE EMPLOYEE:** /api/employees/:id
-**POST:** /api/employees
-**PUT:** /api/employees/:id
-**DELETE:** /api/employees/:id
+/api/employees
 
 ### Orders
 
-**GET ALL ORDERS:** /api/orders
-**GET ONE ORDER:** /api/orders/:orderNumber
-**POST:** /api/orders
-**PUT:** /api/orders/:orderNumber
-**DELETE:** /api/orders/:orderNumber
+/api/orders
 
 ### Materials
 
-**GET ALL MATERIALS:** /api/materials
-**GET ONE MATERIAL:** /api/materials/:id
-**POST:** /api/materials
-**PUT:** /api/materials/:id
-**DELETE:** /api/materials/:id
+/api/materials
 
 ### Payments
 
-**GET ALL PAYMENTS:** /api/payments
-**GET ONE PAYMENT:** /api/payments/:id
-**POST:** /api/payments
-**PUT:** /api/payments/:id
-**DELETE:** /api/payments/:id
-
+/api/payments
