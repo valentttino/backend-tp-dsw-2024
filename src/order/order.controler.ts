@@ -43,56 +43,76 @@ function sanitizeOrderInput(req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response){
-    res.json({data: await repository.findAll()})
+    try{
+        res.json({data: await repository.findAll()})
+    }catch (error) {
+        res.status(500).json({ message: 'An error occurred while fetching orders.' })
+    }    
 }
 
 async function findOne(req: Request, res: Response){
-    const idSearch = req.params.id
-    const order = await repository.findOne({id: idSearch})
-    if (!order){
+    try{
+        const idSearch = req.params.id
+        const order = await repository.findOne({id: idSearch})
+        if (!order){
         return res.status(404).send({message:'Order not found'})
+        }
+        res.json(order)
+    }catch (error){
+        res.status(500).json({ message: 'An error occurred while fetching the order.' })
     }
-    res.json(order)
 }
 
 async function add(req: Request, res: Response){
-    const input = req.body.sanitizedInput
+    try{
+        const input = req.body.sanitizedInput
 
-    const orderNew: IOrder = {
-        idEmployee: input.idEmployee,
-        idCustomer: input.idCustomer,
-        totalCost: input.totalCost,
-        paymentMethod: input.paymentMethod,
-        orderDate: input.orderDate,
-        details: input.details
-    } as IOrder
+        const orderNew: IOrder = {
+            idEmployee: input.idEmployee,
+            idCustomer: input.idCustomer,
+            totalCost: input.totalCost,
+            paymentMethod: input.paymentMethod,
+            orderDate: input.orderDate,
+            details: input.details
+        } as IOrder
 
-    const order = await repository.add(orderNew)
-    return res.status(201).send(order)
-}
+        const order = await repository.add(orderNew)
+        return res.status(201).send(order)
+    }catch (error){
+        res.status(500).json({ message: 'An error occurred while adding the order.' })
+    }
+}    
 
 async function update(req: Request, res: Response){
-    let input = req.body.sanitizedInput
-    input.id = req.params.id
+    try{
+        let input = req.body.sanitizedInput
+        input.id = req.params.id
 
-    const order = await repository.update(input.id, input)
+        const order = await repository.update(input.id, input)
 
-    if (!order){
-        return res.status(404).send({message:'Order not found'})
+        if (!order){
+            return res.status(404).send({message:'Order not found'})
+        }
+
+        res.status(200).send(order)
+    }catch (error) {
+        res.status(500).json({ message: 'An error occurred while updating the order.' })
     }
-
-    res.status(200).send(order)
-}
+}    
 
 async function remove(req: Request, res: Response){
-    const id = req.params.id
+    try{
+        const id = req.params.id
 
-    const order = await repository.delete({id})
+        const order = await repository.delete({id})
 
-    if(!order){
-        res.status(404).send({message:'Order not found'})
-    } else{
-        res.status(200).send({message:'Order deleted successfully'})
+        if(!order){
+            res.status(404).send({message:'Order not found'})
+        } else{
+            res.status(200).send({message:'Order deleted successfully'})
+        }
+    }catch (error) {
+        res.status(500).json({ message: 'An error occurred while deleting the order.' })
     }
 }
 
