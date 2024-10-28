@@ -21,53 +21,78 @@ function sanitizePaymentInput(req: Request, res: Response, next: NextFunction) {
 }
 
 async function findAll(req: Request, res: Response){
-    res.json({ data: await repository.findAll() })
+    try{
+        res.json({ data: await repository.findAll() })
+    }
+    catch (error){
+        res.status(500).json({ message: 'An error occurred while fetching payments.' })
+    }
 }
 
 async function findOne(req: Request, res: Response){
-    const idSearch = req.params.id
-    const payment = await repository.findOne({id: idSearch})
-    if (!payment) {
-        return res.status(404).send({message:'Payment not found'})
+    try{
+        const idSearch = req.params.id
+        const payment = await repository.findOne({id: idSearch})
+        if (!payment) {
+            return res.status(404).send({message:'Payment not found'})
+        }
+        res.json(payment)
     }
-    res.json(payment)
+    catch (error){
+        res.status(500).json({ message: 'An error occurred while fetching the payment.'})
+    }
 }
 
 async function add(req: Request, res: Response){
-    const input = req.body.sanitizedInput
+    try{
+        const input = req.body.sanitizedInput
 
-    const paymentNew: IPayment = {
-        idOrder: input.idOrder,
-        numberOfInstallments: input.numberOfInstallments,
-        paid: input.paid,
-        installmentsDetails: input.installmentsDetails
-    } as IPayment
+        const paymentNew: IPayment = {
+            idOrder: input.idOrder,
+            numberOfInstallments: input.numberOfInstallments,
+            paid: input.paid,
+            installmentsDetails: input.installmentsDetails
+        } as IPayment
 
-    const payment = await repository.add(paymentNew)
-    return res.status(201).send(payment)
+        const payment = await repository.add(paymentNew)
+        return res.status(201).send(payment)
+    }
+    catch (error){
+        res.status(500).json({ message: 'An error occurred while adding the payment.' })
+    }
 }
 
 async function update(req: Request, res: Response){
-    let body = req.body
-    body.id = req.params.id
-    
-    const payment = await repository.update(body.id, body)
+    try{
+        let body = req.body
+        body.id = req.params.id
+        
+        const payment = await repository.update(body.id, body)
 
-    if (!payment) {
-        return res.status(404).send({message:'Payment not found'})
+        if (!payment) {
+            return res.status(404).send({message:'Payment not found'})
+        }
+
+        res.status(200).send(payment)
     }
-
-    res.status(200).send(payment)
+    catch (error){
+        res.status(500).json({ message: 'An error occurred while updating the payment.' })
+    }
 }
 
 async function remove(req: Request, res: Response){
-    const id = req.params.id
-    const payment = await repository.delete({id})
+    try{
+        const id = req.params.id
+        const payment = await repository.delete({id})
 
-    if (!payment){
-        res.status(404).send({message: 'Payment not found'})
-    } else{
-        res.status(200).send({message: 'Payment deleted successfully'})
+        if (!payment){
+            res.status(404).send({message: 'Payment not found'})
+        } else{
+            res.status(200).send({message: 'Payment deleted successfully'})
+        }
+    }
+    catch (error){
+        res.status(500).json({ message: 'An error occurred while deleting the payment.' })
     }
 }
 
