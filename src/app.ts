@@ -6,6 +6,7 @@ import { customerRouter } from './customer/customer.routes.js'
 import { employeeRouter } from './employee/employee.routes.js'
 import { orderRouter } from './order/order.routes.js'
 import { materialRouter } from './material/material.routes.js'
+import { materialCostsRouter } from './materialCosts/materialCosts.routes.js'
 import { paymentRouter } from './payment/payment.routes.js'
 import { loginRouter } from './login/login.routes.js'
 
@@ -39,6 +40,8 @@ app.use('/api/employees', employeeRouter)
 app.use('/api/orders', orderRouter)
 
 app.use('/api/materials', materialRouter)
+
+app.use('/api/materialcosts', materialCostsRouter)
 
 app.use('/api/payments', paymentRouter)
 
