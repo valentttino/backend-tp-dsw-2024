@@ -24,7 +24,8 @@ export const loginUser = async(req: Request, res: Response) =>{
   const employeeForToken = {
     cuil: employee.cuil,
     id: employee.id,
-    name: employee.name
+    name: employee.name,
+    role: employee.role
   }
 
   const token = jwt.sign(employeeForToken, process.env.SECRET as string, {
@@ -35,6 +36,7 @@ export const loginUser = async(req: Request, res: Response) =>{
     token,
     cuil: employee.cuil,
     name: employee.name,
-    id: employee.id
+    id: employee.id,
+    role: employee.role
   })
 }
