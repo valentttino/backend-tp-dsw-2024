@@ -27,7 +27,7 @@ export class EmployeeRepository implements Repository<IEmployee>{
     }
 
     public async update(id: string, item: IEmployee): Promise< IEmployee | undefined> {
-        return (await Employee.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
+        return (await Employee.findOneAndUpdate({_id: id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
     public async delete(item: { id: string }): Promise< IEmployee | undefined> {

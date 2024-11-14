@@ -21,7 +21,7 @@ export class CustomerRepository implements Repository<ICustomer>{
     }
 
     public async update(id: string, item: ICustomer): Promise<ICustomer | undefined> {
-        return (await Customer.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
+        return (await Customer.findOneAndUpdate({_id: id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
     public async delete(item: { id: string }): Promise<ICustomer | undefined> {

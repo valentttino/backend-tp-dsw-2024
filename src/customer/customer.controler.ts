@@ -64,7 +64,10 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-        const customer = await repository.update(req.params.id, req.body.sanitizedInput)
+        const input = req.body.sanitizedInput
+        input.id = req.params.id
+
+        const customer = await repository.update(input.id, input)
 
         if (!customer) {
             return res.status(404).send({ message: 'Customer not found' })

@@ -21,7 +21,7 @@ export class MaterialCostsRepository implements Repository<IMaterialCosts>{
     }
 
     public async update(id: string, item: IMaterialCosts): Promise<IMaterialCosts | undefined> {
-        return (await MaterialCosts.findOneAndUpdate({id}, {$set: item}, {returnDocument: 'after'})) || undefined
+        return (await MaterialCosts.findOneAndUpdate({_id: id}, {$set: item}, {returnDocument: 'after'})) || undefined
     }
 
     public async delete(item: { id: string }): Promise<IMaterialCosts | undefined> {
