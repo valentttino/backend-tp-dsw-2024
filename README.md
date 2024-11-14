@@ -45,6 +45,10 @@ La API REST está construida usando Express y TypeScript, y se ejecuta con pnpm 
 
 /api/materials
 
+### Material Costs
+
+/api/materialcosts
+
 ### Payments
 
 /api/payments
